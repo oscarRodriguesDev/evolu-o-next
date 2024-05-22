@@ -7,7 +7,8 @@ export default function Header(){
             <h1>Componente Header do site!</h1>
             <Link href= '/'>HOME</Link><br />
             <Link href= '/contatos'>Contatos</Link><br />
-            <Link href= 'repositorio'>Repositorio</Link><br />
+            <Link href= '/repositorio'>Repositorio</Link><br />
+            <Link href= '/dashboards'>Dashboards</Link><br />
             <br />
             <hr />
 

@@ -19,6 +19,8 @@ export default function RootLayout({
        <Header/>
         <br />
         {children}
+        <hr />
+        <footer>Exemplo de footer </footer>
         </body>
     </html>
   );
