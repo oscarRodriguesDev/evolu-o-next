@@ -1,95 +1,59 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+//recuperar dados da api
+/* async function getData(){
+//https://api.github.com/users/devfraga/repos
+const response = await fetch('https://api.github.com/users/devfraga/repos'); 
+return response.json()
+} */
+//tipagem do item que vai ser recuperado da api
 
-export default function Home() {
+import { MeasureMemoryMode } from "vm";
+
+interface DataProps{
+  id: number;
+  name: string;
+  full_name:string;
+  owner:{
+    login:string;
+    id:number;
+    avatar_url:string;
+    url:string;
+  }
+}
+
+
+async function delayFetch(url:string,delay:number){
+  await new Promise(resolve => setTimeout(resolve,delay));
+  const response = await fetch(url);
+  return response.json();
+}
+
+async function getData(){
+  const data = await delayFetch('https://api.github.com/users/devfraga/repos',1500);
+  return data
+}
+
+export default async function Home() {
+
+  const data:DataProps[]= await getData()
+  //console.log(data)
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+ <main>
+<h1>Pagina Home</h1>
+<span>Seje bem vindo a pagina home</span>
+<br />
+<h3>listando meus repositorios</h3>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+{data. map((item)=>{
+ return(
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+  <div key={item.id}>
+    <strong>Repositorio:</strong> <a>item.name</a>
+     
+  </div>
+ )
+   
+  
+})}
+ </main> 
   );
 }
